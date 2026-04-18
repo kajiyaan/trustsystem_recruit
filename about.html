@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会社について | 株式会社トラストシステム 新卒採用</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <!-- 正式ロゴ画像 -->
+    <img src="img/img_2.png" alt="株式会社トラストシステム" class="nav-logo-img" onerror="this.style.display=&#39;none&#39;;this.nextElementSibling.style.display=&#39;flex&#39;;">
+    <!-- フォールバック用テキストロゴ -->
+    <span style="display:none;font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:18px;letter-spacing:3px;color:#f0f4f8;">TRUST<span style="color:#4a9eff;">SYSTEM</span></span>
+    <div class="nav-logo-divider"></div>
+    <div class="nav-logo-badge">
+      <span class="nav-logo-badge-top">New Graduate</span>
+      <span class="nav-logo-badge-bottom">RECRUITMENT 2027</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="business.html">Business</a></li>
+    <li><a href="culture.html">Culture</a></li>
+    <li><a href="career.html">Career</a></li>
+    <li><a href="welfare.html">Benefits</a></li>
+    <li><a href="stories.html">Stories</a></li>
+    <li><a href="recruit.html">募集要項</a></li>
+    <li><a href="entry.html" class="nav-entry">Entry</a></li>
+  </ul>
+</nav>
+<div style="height:80px;"></div>
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div>
+      <p class="section-label">About Us</p>
+      <h2 class="section-title">信頼という<br><em>名前を持つ</em><br>IT企業。</h2>
+      <div class="divider"></div>
+      <p class="section-desc" style="font-size:17px;line-height:2;">
+        トラストシステムは、コンサルティングから企画・開発、運用・保守、IT技術者教育まで、システムサイクルのあらゆるフェーズをカバーする独立系IT企業です。特定のメーカーや製品にとらわれることなく、豊富な経験を持つエンジニア集団が、お客様と共に最適なソリューションを創り出しています。
+      </p>
+      <br>
+      <p class="section-desc" style="color: var(--light-gray);">
+        2016年にミライト・ワングループに参画し、グループの安定した基盤を持ちながらも、独立系として柔軟な技術選定とスピード感ある開発を実現しています。
+      </p>
+    </div>
+    <div class="about-visual">
+      <div class="about-card">
+        <span class="about-floating-label">EST. 1985</span>
+        <p class="about-quote">
+          「人と人の繋がりの間に<br>ITがある」
+        </p>
+        <p class="about-quote-sub">
+          私たちが開発するシステムは、銀行・証券・通信インフラ——<br>
+          普段目にすることは少なくとも、「なくては困る」機能を担っています。<br><br>
+          41年間、社会の「当たり前」を裏側から支え続けてきた。<br>
+          それがトラストシステムという会社です。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- CLIENTS -->
+<div class="clients-strip">
+  <p class="clients-label">Main Clients — 主要取引先</p>
+  <div class="clients-list">
+    <span class="client-tag">楽天証券</span>
+    <span class="client-tag">楽天銀行</span>
+    <span class="client-tag">みずほ銀行</span>
+    <span class="client-tag">NTTデータ</span>
+    <span class="client-tag">富士通</span>
+    <span class="client-tag">KDDI</span>
+    <span class="client-tag">マネックス証券</span>
+    <span class="client-tag">大和総研</span>
+    <span class="client-tag">GMOフィナンシャルHD</span>
+    <span class="client-tag">楽天生命</span>
+    <span class="client-tag">アニコム損保</span>
+    <span class="client-tag">シンプレクス</span>
+  </div>
+</div>
+<footer>
+  <div>
+    <div class="footer-logo"><img src="img/img_2.png" alt="株式会社トラストシステム"></div>
+    <p style="font-size:12px;color:var(--gray);margin-top:8px;">株式会社トラストシステム ／ ミライト・ワングループ</p>
+  </div>
+  <div class="footer-info">
+    <p>〒101-0021 東京都千代田区外神田4-14-1</p>
+    <p>秋葉原UDX 北ウィング8F</p>
+    <p>TEL：03-3253-0391</p>
+    <p style="margin-top:8px;color:rgba(138,155,176,0.5);">© 2026 Trust System Corporation. All rights reserved.</p>
+  </div>
+</footer>
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.number-card,.biz-card,.culture-card,.welfare-item,.fork-card,.project-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 50 ? 'rgba(10,10,15,0.97)' : 'rgba(10,10,15,0.85)';
+  });
+  const currentPage = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a:not(.nav-entry)').forEach(a => {
+    if (a.getAttribute('href') === currentPage) a.style.color = 'var(--accent)';
+  });
+</script>
+</body>
+</html>

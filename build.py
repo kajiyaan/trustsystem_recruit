@@ -183,15 +183,6 @@ nav_html = nav_html.replace('</nav>', """  <button class="nav-hamburger" id="nav
 footer_html = sections['FOOTER']
 footer_match = re.search(r'<footer>.*?</footer>', footer_html, re.DOTALL)
 footer_only = footer_match.group(0) if footer_match else footer_html
-# Add privacy policy link to footer
-footer_only = footer_only.replace(
-    '</footer>',
-    '  <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(74,158,255,0.08);width:100%;text-align:center;">\n'
-    '    <a href="https://www.trustsystem.co.jp/privacypolicy" target="_blank" rel="noopener" '
-    'style="font-size:11px;color:rgba(138,155,176,0.5);text-decoration:underline;letter-spacing:1px;">'
-    'プライバシーポリシー</a>\n'
-    '  </div>\n</footer>'
-)
 
 # --- Common JS ---
 js = """<script>

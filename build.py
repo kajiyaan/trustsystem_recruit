@@ -25,11 +25,91 @@ for orig, new in img_map.items():
     clean_raw = clean_raw.replace(orig, new)
 
 # --- Extract CSS ---
+HAMBURGER_CSS = """
+  /* ===== HAMBURGER MENU ===== */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+    background: none;
+    border: none;
+    z-index: 200;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--white);
+    transition: all 0.3s ease;
+    border-radius: 1px;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-mobile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 150;
+    backdrop-filter: blur(2px);
+  }
+  .nav-mobile-overlay.open { display: block; }
+
+  .nav-mobile-menu {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 280px;
+    background: var(--dark);
+    border-left: 1px solid rgba(74,158,255,0.15);
+    z-index: 160;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    padding: 88px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .nav-mobile-menu.open { transform: translateX(0); }
+  .nav-mobile-menu a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(74,158,255,0.08);
+    transition: color 0.3s;
+    display: block;
+  }
+  .nav-mobile-menu a:hover { color: var(--accent); }
+  .nav-mobile-menu .nav-entry-mobile {
+    margin-top: 28px;
+    background: var(--accent);
+    color: var(--black) !important;
+    text-align: center;
+    padding: 14px 0;
+    border-radius: 2px;
+    font-weight: 700;
+    border-bottom: none;
+    letter-spacing: 2px;
+  }
+  .nav-mobile-menu .nav-entry-mobile:hover { background: #6bb3ff; }
+
+  @media (max-width: 768px) {
+    .nav-hamburger { display: flex; }
+  }
+"""
+
 css_match = re.search(r'<style>(.*?)</style>', clean_raw, re.DOTALL)
 if css_match:
     css_path = os.path.join(OUT, 'css', 'style.css')
     with open(css_path, 'w', encoding='utf-8') as f:
-        f.write(css_match.group(1))
+        f.write(css_match.group(1) + HAMBURGER_CSS)
     print('style.css saved')
 
 # --- Extract sections ---
@@ -81,6 +161,23 @@ if 'href="welfare.html">Benefits' not in nav_html:
         '<li><a href="stories.html">Stories</a></li>',
         '<li><a href="welfare.html">Benefits</a></li>\n    <li><a href="interview.html">Interview</a></li>\n    <li><a href="stories.html">Stories</a></li>'
     )
+# Add hamburger button + mobile menu
+nav_html = nav_html.replace('</nav>', """  <button class="nav-hamburger" id="navHamburger" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile-overlay" id="navOverlay"></div>
+<div class="nav-mobile-menu" id="navMobileMenu">
+  <a href="about.html">About</a>
+  <a href="business.html">Business</a>
+  <a href="culture.html">Culture</a>
+  <a href="career.html">Career</a>
+  <a href="welfare.html">Benefits</a>
+  <a href="interview.html">Interview</a>
+  <a href="stories.html">Stories</a>
+  <a href="recruit.html">募集要項</a>
+  <a href="entry.html" class="nav-entry-mobile">Entry</a>
+</div>""")
 
 # --- Build clean FOOTER ---
 footer_html = sections['FOOTER']
@@ -111,6 +208,18 @@ js = """<script>
   document.querySelectorAll('.nav-links a:not(.nav-entry)').forEach(a => {
     if (a.getAttribute('href') === currentPage) a.style.color = 'var(--accent)';
   });
+  const hamburger = document.getElementById('navHamburger');
+  const overlay = document.getElementById('navOverlay');
+  const mobileMenu = document.getElementById('navMobileMenu');
+  function toggleMenu(open) {
+    hamburger.classList.toggle('open', open);
+    overlay.classList.toggle('open', open);
+    mobileMenu.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  hamburger.addEventListener('click', () => toggleMenu(!mobileMenu.classList.contains('open')));
+  overlay.addEventListener('click', () => toggleMenu(false));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
 </script>"""
 
 NAV_SPACER = '<div style="height:80px;"></div>'

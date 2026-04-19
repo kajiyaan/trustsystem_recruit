@@ -33,7 +33,22 @@
     <li><a href="recruit.html">募集要項</a></li>
     <li><a href="entry.html" class="nav-entry">Entry</a></li>
   </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-mobile-overlay" id="navOverlay"></div>
+<div class="nav-mobile-menu" id="navMobileMenu">
+  <a href="about.html">About</a>
+  <a href="business.html">Business</a>
+  <a href="culture.html">Culture</a>
+  <a href="career.html">Career</a>
+  <a href="welfare.html">Benefits</a>
+  <a href="interview.html">Interview</a>
+  <a href="stories.html">Stories</a>
+  <a href="recruit.html">募集要項</a>
+  <a href="entry.html" class="nav-entry-mobile">Entry</a>
+</div>
 <!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
@@ -218,6 +233,18 @@
   document.querySelectorAll('.nav-links a:not(.nav-entry)').forEach(a => {
     if (a.getAttribute('href') === currentPage) a.style.color = 'var(--accent)';
   });
+  const hamburger = document.getElementById('navHamburger');
+  const overlay = document.getElementById('navOverlay');
+  const mobileMenu = document.getElementById('navMobileMenu');
+  function toggleMenu(open) {
+    hamburger.classList.toggle('open', open);
+    overlay.classList.toggle('open', open);
+    mobileMenu.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  hamburger.addEventListener('click', () => toggleMenu(!mobileMenu.classList.contains('open')));
+  overlay.addEventListener('click', () => toggleMenu(false));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
 </script>
 </body>
 </html>

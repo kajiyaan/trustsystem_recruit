@@ -235,6 +235,7 @@ def make_page(title, body):
         '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
         '<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">\n'
         '<link rel="stylesheet" href="css/style.css">\n'
+        '<link rel="icon" type="image/png" href="img/favicon.png">\n'
         '</head>\n'
         '<body>\n'
         + nav_html + '\n'

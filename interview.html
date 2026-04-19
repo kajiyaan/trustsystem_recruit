@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>社員インタビュー | 株式会社トラストシステム 新卒採用</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .iv-hero {
+    padding: 160px 48px 80px;
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .iv-hero::before {
+    content: 'INTERVIEW';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 220px;
+    color: rgba(74,158,255,0.04);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    letter-spacing: 16px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .iv-hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(74,158,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,158,255,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  .iv-hero-inner {
+    max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;
+  }
+
+  /* カード一覧 */
+  .iv-list {
+    background: var(--black);
+    padding: 80px 48px 120px;
+  }
+  .iv-list-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .iv-card {
+    background: var(--dark2);
+    text-decoration: none;
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .iv-card:hover { background: var(--navy); }
+  .iv-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+  .iv-card:hover::after { transform: scaleX(1); }
+
+  .iv-card-photo {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    filter: grayscale(20%);
+    transition: filter 0.3s;
+  }
+  .iv-card:hover .iv-card-photo { filter: grayscale(0%); }
+
+  .iv-card-body { padding: 32px; flex: 1; display: flex; flex-direction: column; }
+
+  .iv-card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px; letter-spacing: 4px;
+    color: var(--accent); margin-bottom: 12px;
+  }
+  .iv-card-tags {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px;
+  }
+  .iv-card-tag {
+    font-size: 10px; letter-spacing: 2px;
+    border: 1px solid rgba(74,158,255,0.3);
+    color: var(--accent);
+    padding: 3px 10px; border-radius: 2px;
+  }
+  .iv-card-title {
+    font-size: 17px; font-weight: 500; line-height: 1.6;
+    margin-bottom: 16px; color: var(--white);
+  }
+  .iv-card-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; line-height: 1.8;
+    color: var(--gray); flex: 1;
+    border-left: 2px solid rgba(74,158,255,0.3);
+    padding-left: 14px; margin-bottom: 24px;
+  }
+  .iv-card-profile {
+    display: flex; align-items: center; gap: 14px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(74,158,255,0.1);
+  }
+  .iv-card-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    object-fit: cover; object-position: top;
+    border: 1px solid rgba(74,158,255,0.2);
+    flex-shrink: 0;
+  }
+  .iv-card-name { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .iv-card-meta { font-size: 11px; color: var(--gray); line-height: 1.6; }
+  .iv-card-arrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px; letter-spacing: 3px;
+    color: var(--accent); margin-top: 16px;
+    display: flex; align-items: center; gap: 8px;
+    transition: gap 0.3s;
+  }
+  .iv-card:hover .iv-card-arrow { gap: 14px; }
+
+  @media (max-width: 768px) {
+    .iv-hero { padding: 120px 24px 60px; }
+    .iv-list { padding: 60px 24px 80px; }
+    .iv-list-inner { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="img/img_0.png" alt="株式会社トラストシステム" class="nav-logo-img"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <span style="display:none;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;color:#f0f4f8;">TRUST<span style="color:#4a9eff;">SYSTEM</span></span>
+    <div class="nav-logo-divider"></div>
+    <div class="nav-logo-badge">
+      <span class="nav-logo-badge-top">New Graduate</span>
+      <span class="nav-logo-badge-bottom">RECRUITMENT 2027</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="business.html">Business</a></li>
+    <li><a href="culture.html">Culture</a></li>
+    <li><a href="career.html">Career</a></li>
+    <li><a href="welfare.html">Benefits</a></li>
+    <li><a href="interview.html" style="color:var(--accent);">Interview</a></li>
+    <li><a href="stories.html">Stories</a></li>
+    <li><a href="recruit.html">募集要項</a></li>
+    <li><a href="entry.html" class="nav-entry">Entry</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="iv-hero">
+  <div class="iv-hero-grid"></div>
+  <div class="iv-hero-inner">
+    <p class="section-label">Employee Interview</p>
+    <h1 class="section-title" style="font-size:clamp(40px,6vw,72px);">
+      働く人の<br><em>リアルな声</em>
+    </h1>
+    <p class="section-desc">
+      異なるバックグラウンドを持つ3人の若手リーダーに、入社のきっかけから現在、そしてこれからのキャリアについて聞きました。
+    </p>
+  </div>
+</section>
+
+<!-- CARD LIST -->
+<div class="iv-list">
+  <div class="iv-list-inner">
+
+    <!-- Card 01 -->
+    <a href="interview_01.html" class="iv-card">
+      <img src="img/interview_01_profile.jpg" alt="H・Sさん" class="iv-card-photo">
+      <div class="iv-card-body">
+        <p class="iv-card-num">INTERVIEW 01</p>
+        <div class="iv-card-tags">
+          <span class="iv-card-tag">情報系出身</span>
+          <span class="iv-card-tag">女性エンジニア</span>
+          <span class="iv-card-tag">2019年入社</span>
+        </div>
+        <h2 class="iv-card-title">東京電機大学卒業から入社した<br>6年目女性社員がリーダーに抜擢されるまで</h2>
+        <p class="iv-card-quote">「みんなが働きやすい体制を作ることが理想です」</p>
+        <div class="iv-card-profile">
+          <img src="img/interview_01_profile.jpg" alt="H・S" class="iv-card-avatar">
+          <div>
+            <p class="iv-card-name">H・S さん</p>
+            <p class="iv-card-meta">東京電機大学 情報系卒<br>2019年入社 → 2024年リーダー昇格</p>
+          </div>
+        </div>
+        <p class="iv-card-arrow">READ MORE →</p>
+      </div>
+    </a>
+
+    <!-- Card 02 -->
+    <a href="interview_02.html" class="iv-card">
+      <img src="img/interview_02_profile.jpg" alt="N・Tさん" class="iv-card-photo">
+      <div class="iv-card-body">
+        <p class="iv-card-num">INTERVIEW 02</p>
+        <div class="iv-card-tags">
+          <span class="iv-card-tag">文系出身</span>
+          <span class="iv-card-tag">教育学部</span>
+          <span class="iv-card-tag">2019年入社</span>
+        </div>
+        <h2 class="iv-card-title">文系出身エンジニアが踏み出す、<br>リーダーとしての第一歩</h2>
+        <p class="iv-card-quote">「評価項目で○がついていないところをなくしたくて」</p>
+        <div class="iv-card-profile">
+          <img src="img/interview_02_profile.jpg" alt="N・T" class="iv-card-avatar">
+          <div>
+            <p class="iv-card-name">N・T さん</p>
+            <p class="iv-card-meta">新潟大学 教育学部卒<br>2019年入社 → 2024年リーダー昇格</p>
+          </div>
+        </div>
+        <p class="iv-card-arrow">READ MORE →</p>
+      </div>
+    </a>
+
+    <!-- Card 03 -->
+    <a href="interview_03.html" class="iv-card">
+      <img src="img/interview_03_profile.jpg" alt="M・Eさん" class="iv-card-photo">
+      <div class="iv-card-body">
+        <p class="iv-card-num">INTERVIEW 03</p>
+        <div class="iv-card-tags">
+          <span class="iv-card-tag">理系出身</span>
+          <span class="iv-card-tag">IT未経験</span>
+          <span class="iv-card-tag">2020年入社</span>
+        </div>
+        <h2 class="iv-card-title">最初は興味ゼロ！<br>IT未経験からリーダーに駆け上がるまで</h2>
+        <p class="iv-card-quote">「置かれた環境でできることをただ頑張って続けていたら」</p>
+        <div class="iv-card-profile">
+          <img src="img/interview_03_profile.jpg" alt="M・E" class="iv-card-avatar">
+          <div>
+            <p class="iv-card-name">M・E さん</p>
+            <p class="iv-card-meta">中央大学 理学部卒<br>2020年入社 → 2024年リーダー昇格</p>
+          </div>
+        </div>
+        <p class="iv-card-arrow">READ MORE →</p>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <a class="footer-logo" href="index.html">
+      <img src="img/img_2.png" alt="株式会社トラストシステム">
+    </a>
+  </div>
+  <div class="footer-info">
+    <p>株式会社トラストシステム</p>
+    <p>〒101-0021 東京都千代田区外神田4-14-1</p>
+    <p>秋葉原UDX 北ウィング8F</p>
+    <p>TEL：03-3253-0391</p>
+    <p style="margin-top:8px;color:rgba(138,155,176,0.5);">© 2025 Trust System Corporation. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 50 ? 'rgba(10,10,15,0.97)' : 'rgba(10,10,15,0.85)';
+  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.iv-card').forEach(el => {
+    el.style.opacity='0'; el.style.transform='translateY(20px)';
+    el.style.transition='opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

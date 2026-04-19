@@ -79,7 +79,7 @@ nav_html = re.sub(r'\s*<li><a href="business\.html">Projects</a></li>', '', nav_
 if 'href="welfare.html">Benefits' not in nav_html:
     nav_html = nav_html.replace(
         '<li><a href="stories.html">Stories</a></li>',
-        '<li><a href="welfare.html">Benefits</a></li>\n    <li><a href="stories.html">Stories</a></li>'
+        '<li><a href="welfare.html">Benefits</a></li>\n    <li><a href="interview.html">Interview</a></li>\n    <li><a href="stories.html">Stories</a></li>'
     )
 
 # --- Build clean FOOTER ---

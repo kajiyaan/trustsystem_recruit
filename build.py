@@ -140,8 +140,9 @@ def make_page(title, body):
 # index.html  (Hero + Marquee + Numbers)
 # ============================================================
 hero = sections['HERO']
-hero = hero.replace('href="#entry"', 'href="entry.html"')
-hero = hero.replace('href="#about"', 'href="about.html"')
+hero = re.sub(r'href="https?://[^"]*#([a-z]+)"', replace_href, hero)
+for anchor, page in anchor_map.items():
+    hero = hero.replace(f'href="#{anchor}"', f'href="{page}"')
 index_body = hero + '\n' + sections['MARQUEE'] + '\n' + sections['NUMBERS']
 with open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8') as f:
     f.write(make_page('新卒採用 特設サイト', index_body))

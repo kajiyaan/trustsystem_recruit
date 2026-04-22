@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新卒採用 特設サイト B案 | 株式会社トラストシステム 新卒採用</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<style>
+  :root {
+    --bg:       #ffffff;
+    --bg2:      #f4f8fd;
+    --bg3:      #e8f2fb;
+    --navy:     #0d1b2a;
+    --accent:   #4a9eff;
+    --accent2:  #0066cc;
+    --text:     #1a2a3a;
+    --gray:     #5a6e82;
+    --light:    #8a9bb0;
+    --border:   rgba(74,158,255,0.2);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    overflow-x: hidden;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 48px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--accent);
+    box-shadow: 0 2px 20px rgba(74,158,255,0.08);
+    transition: background 0.3s;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 16px; text-decoration: none;
+  }
+  .nav-logo-img { height: 40px; width: auto; }
+  .nav-logo-divider {
+    width: 1px; height: 28px;
+    background: var(--border);
+  }
+  .nav-logo-badge { display: flex; flex-direction: column; gap: 2px; }
+  .nav-logo-badge-top {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 10px; letter-spacing: 4px;
+    color: var(--accent); line-height: 1;
+  }
+  .nav-logo-badge-bottom {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px; letter-spacing: 3px;
+    color: var(--navy); line-height: 1;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    font-weight: 400;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-entry {
+    background: var(--accent) !important;
+    color: #fff !important;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-weight: 700 !important;
+    transition: background 0.3s !important;
+  }
+  .nav-entry:hover { background: var(--accent2) !important; }
+
+  /* Hamburger */
+  .nav-hamburger {
+    display: none; flex-direction: column;
+    justify-content: center; gap: 5px;
+    cursor: pointer; padding: 8px;
+    background: none; border: none; z-index: 200;
+  }
+  .nav-hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--navy);
+    transition: all 0.3s ease; border-radius: 1px;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-mobile-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.3); z-index: 150;
+  }
+  .nav-mobile-overlay.open { display: block; }
+  .nav-mobile-menu {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: 280px; background: #fff;
+    border-left: 2px solid var(--accent);
+    z-index: 160;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    padding: 88px 40px 40px;
+    display: flex; flex-direction: column;
+  }
+  .nav-mobile-menu.open { transform: translateX(0); }
+  .nav-mobile-menu a {
+    color: var(--gray); text-decoration: none;
+    font-size: 12px; letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(74,158,255,0.1);
+    transition: color 0.3s; display: block;
+  }
+  .nav-mobile-menu a:hover { color: var(--accent); }
+  .nav-mobile-menu .nav-entry-mobile {
+    margin-top: 28px; background: var(--accent);
+    color: #fff !important; text-align: center;
+    padding: 14px 0; border-radius: 4px;
+    font-weight: 700; border-bottom: none;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+  }
+
+  /* ===== HERO ===== */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 0 48px;
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #e8f2fb 50%, #f0f7ff 100%);
+  }
+
+  .hero-grid-light {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(74,158,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,158,255,0.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+  }
+
+  .hero-circle-light {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(74,158,255,0.15);
+  }
+  .hero-circle-light-1 {
+    width: 600px; height: 600px;
+    right: -100px; top: -100px;
+    animation: rotate 40s linear infinite;
+  }
+  .hero-circle-light-2 {
+    width: 400px; height: 400px;
+    right: 50px; top: 50px;
+    border-color: rgba(74,158,255,0.1);
+    animation: rotate 30s linear infinite reverse;
+  }
+  @keyframes rotate { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+
+  .hero-photo-wrap {
+    position: absolute; right: 0; top: 0; bottom: 0;
+    width: 50%; z-index: 0; overflow: hidden;
+  }
+  .hero-photo-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+    opacity: 0.6;
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 25%, rgba(0,0,0,1) 60%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 25%, rgba(0,0,0,1) 60%);
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 640px; }
+
+  .hero-badges {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 32px;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-badge-filled {
+    background: var(--accent); color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px; letter-spacing: 4px; padding: 6px 16px;
+    border-radius: 2px;
+  }
+  .hero-badge-outline {
+    border: 1.5px solid var(--accent); color: var(--accent);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px; letter-spacing: 4px; padding: 6px 16px;
+    border-radius: 2px;
+  }
+  .hero-badge-line { width: 32px; height: 1px; background: var(--border); }
+  .hero-badge-company { font-size: 11px; letter-spacing: 3px; color: var(--gray); }
+
+  .hero-title-b {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 10vw, 120px);
+    line-height: 0.95; letter-spacing: 4px;
+    color: var(--navy);
+    margin-bottom: 8px;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title-b .accent { color: var(--accent); }
+
+  .hero-subtitle-b {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 3.5vw, 44px);
+    font-weight: 300; line-height: 1.3;
+    color: var(--navy);
+    margin-bottom: 28px;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-tagline-b {
+    font-size: 16px; line-height: 2;
+    color: var(--gray); max-width: 480px;
+    margin-bottom: 40px;
+    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .hero-ctas-b {
+    display: flex; gap: 16px;
+    opacity: 0; animation: fadeUp 0.8s 1s forwards;
+  }
+  .btn-primary-b {
+    background: var(--accent); color: #fff;
+    padding: 16px 40px; font-size: 13px;
+    font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; text-decoration: none;
+    border-radius: 4px; transition: all 0.3s;
+  }
+  .btn-primary-b:hover {
+    background: var(--accent2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(74,158,255,0.3);
+  }
+  .btn-outline-b {
+    border: 2px solid var(--accent); color: var(--accent);
+    padding: 16px 40px; font-size: 13px;
+    letter-spacing: 2px; text-transform: uppercase;
+    text-decoration: none; border-radius: 4px;
+    transition: all 0.3s;
+  }
+  .btn-outline-b:hover {
+    background: rgba(74,158,255,0.08);
+  }
+
+  .scroll-indicator-b {
+    position: absolute; bottom: 40px; left: 48px; z-index: 1;
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0; animation: fadeIn 1s 1.5s forwards;
+  }
+  .scroll-indicator-b span { font-size: 11px; letter-spacing: 4px; color: var(--light); }
+  .scroll-line-b {
+    width: 48px; height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+  /* ===== MARQUEE ===== */
+  .marquee-section-b {
+    background: var(--accent);
+    padding: 14px 0; overflow: hidden;
+  }
+  .marquee-track-b {
+    display: flex; gap: 0;
+    animation: marquee 30s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item-b {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px; letter-spacing: 4px;
+    color: #fff; padding: 0 24px;
+  }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ===== NUMBERS ===== */
+  #numbers-b {
+    background: var(--bg2);
+    padding: 100px 48px;
+  }
+  .numbers-header-b { text-align: center; margin-bottom: 56px; }
+  .section-label-b {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px; letter-spacing: 6px;
+    color: var(--accent); margin-bottom: 12px;
+    text-transform: uppercase; display: block;
+  }
+  .section-title-b {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 300; line-height: 1.2;
+    color: var(--navy);
+  }
+  .section-title-b em { font-style: normal; color: var(--accent); }
+
+  .numbers-grid-b {
+    max-width: 1200px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .number-card-b {
+    background: #fff;
+    border-radius: 8px;
+    padding: 32px 24px;
+    text-align: center;
+    border-top: 3px solid var(--accent);
+    box-shadow: 0 4px 20px rgba(74,158,255,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .number-card-b:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(74,158,255,0.15);
+  }
+  .number-value-b {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px; line-height: 1;
+    color: var(--navy); letter-spacing: 2px;
+  }
+  .unit-b { font-size: 28px; color: var(--accent); }
+  .number-label-b {
+    font-size: 13px; font-weight: 500;
+    color: var(--text); margin: 8px 0 4px;
+    line-height: 1.5;
+  }
+  .number-sub-b { font-size: 11px; color: var(--light); line-height: 1.6; }
+
+  @media (max-width: 768px) {
+    #hero { padding: 0 24px; }
+    .hero-photo-wrap { width: 100%; opacity: 0.2; }
+    #numbers-b { padding: 60px 24px; }
+    .numbers-grid-b { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .number-card-b { padding: 20px 12px; }
+    .number-value-b { font-size: 36px; }
+    .unit-b { font-size: 20px; }
+  }
+
+  /* ===== FOOTER ===== */
+  footer-b, .footer-b {
+    display: flex;
+  }
+  .footer-light {
+    background: var(--navy);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 48px;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .footer-light-logo img { height: 40px; }
+  .footer-light-sub {
+    font-size: 12px; color: rgba(255,255,255,0.4);
+    margin-top: 8px;
+  }
+  .footer-light-info p {
+    font-size: 13px; color: rgba(255,255,255,0.6);
+    line-height: 1.8;
+  }
+  .footer-light-copy {
+    font-size: 11px; color: rgba(255,255,255,0.3);
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a class="nav-logo" href="index_b.html">
+    <img src="img/img_2.png" alt="株式会社トラストシステム" class="nav-logo-img"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <span style="display:none;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;color:#0d1b2a;">TRUST<span style="color:#4a9eff;">SYSTEM</span></span>
+    <div class="nav-logo-divider"></div>
+    <div class="nav-logo-badge">
+      <span class="nav-logo-badge-top">New Graduate</span>
+      <span class="nav-logo-badge-bottom">RECRUITMENT 2027</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="business.html">Business</a></li>
+    <li><a href="culture.html">Culture</a></li>
+    <li><a href="career.html">Career</a></li>
+    <li><a href="welfare.html">Benefits</a></li>
+    <li><a href="interview.html">Interview</a></li>
+    <li><a href="stories.html">Stories</a></li>
+    <li><a href="recruit.html">募集要項</a></li>
+    <li><a href="entry.html" class="nav-entry">Entry</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile-overlay" id="navOverlay"></div>
+<div class="nav-mobile-menu" id="navMobileMenu">
+  <a href="about.html">About</a>
+  <a href="business.html">Business</a>
+  <a href="culture.html">Culture</a>
+  <a href="career.html">Career</a>
+  <a href="welfare.html">Benefits</a>
+  <a href="interview.html">Interview</a>
+  <a href="stories.html">Stories</a>
+  <a href="recruit.html">募集要項</a>
+  <a href="entry.html" class="nav-entry-mobile">Entry</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-light"></div>
+  <div class="hero-circle-light hero-circle-light-1"></div>
+  <div class="hero-circle-light hero-circle-light-2"></div>
+
+  <div class="hero-photo-wrap">
+    <img src="img/img_1.jpeg" alt="トラストシステム 社員">
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badges">
+      <span class="hero-badge-filled">NEW GRADUATE</span>
+      <span class="hero-badge-outline">RECRUITMENT 2027</span>
+      <div class="hero-badge-line"></div>
+      <span class="hero-badge-company">株式会社トラストシステム</span>
+    </div>
+
+    <h1 class="hero-title-b">PEOPLE<br><span class="accent">FIRST.</span><br>IT NEXT.</h1>
+    <p class="hero-subtitle-b">h<span style="color:#4a9eff;">IT</span>oの中に<span style="color:#4a9eff;">IT</span>がある。</p>
+    <p class="hero-tagline-b">
+      1985年創業、41年の歴史を持つ独立系SIer。<br>
+      金融・通信インフラを支えるミッションクリティカルな開発で、<br>
+      あなたの技術が日本の「当たり前」を守る。<br>
+      人と人の繋がりの間に、ITがある。
+    </p>
+    <div class="hero-ctas-b">
+      <a href="entry.html" class="btn-primary-b">エントリーはこちら</a>
+      <a href="about.html" class="btn-outline-b">会社を知る</a>
+    </div>
+  </div>
+
+  <div class="scroll-indicator-b">
+    <div class="scroll-line-b"></div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section-b">
+  <div class="marquee-track-b">
+    <span class="marquee-item-b">SYSTEM DEVELOPMENT</span>
+    <span class="marquee-item-b">★</span>
+    <span class="marquee-item-b">SYSTEM INTEGRATION</span>
+    <span class="marquee-item-b">★</span>
+    <span class="marquee-item-b">AI DX</span>
+    <span class="marquee-item-b">★</span>
+    <span class="marquee-item-b">MIRAIT ONE GROUP</span>
+    <span class="marquee-item-b">★</span>
+    <span class="marquee-item-b">EST.1985</span>
+    <span class="marquee-item-b">★</span>
+    <span class="marquee-item-b">AKIHABARA, TOKYO</span>
+    <span class="marquee-item-b">★</span>
+    <span class="marquee-item-b">SYSTEM DEVELOPMENT</span>
+    <span class="marquee-item-b">★</span>
+    <span class="marquee-item-b">SYSTEM INTEGRATION</span>
+    <span class="marquee-item-b">★</span>
+    <span class="marquee-item-b">AI DX</span>
+    <span class="marquee-item-b">★</span>
+    <span class="marquee-item-b">MIRAIT ONE GROUP</span>
+    <span class="marquee-item-b">★</span>
+    <span class="marquee-item-b">EST.1985</span>
+    <span class="marquee-item-b">★</span>
+    <span class="marquee-item-b">AKIHABARA, TOKYO</span>
+    <span class="marquee-item-b">★</span>
+  </div>
+</div>
+
+<!-- NUMBERS -->
+<section id="numbers-b">
+  <div class="numbers-header-b">
+    <span class="section-label-b">By the Numbers</span>
+    <h2 class="section-title-b">数字で見る<br><em>トラストシステム</em></h2>
+  </div>
+  <div class="numbers-grid-b">
+    <div class="number-card-b">
+      <div class="number-value-b">41<span class="unit-b">年</span></div>
+      <div class="number-label-b">創業からの歴史</div>
+      <div class="number-sub-b">1985年1月設立</div>
+    </div>
+    <div class="number-card-b">
+      <div class="number-value-b">290<span class="unit-b">名</span></div>
+      <div class="number-label-b">社員数</div>
+      <div class="number-sub-b">2026年4月現在</div>
+    </div>
+    <div class="number-card-b">
+      <div class="number-value-b">51<span class="unit-b">億</span></div>
+      <div class="number-label-b">売上高</div>
+      <div class="number-sub-b">2024年度実績</div>
+    </div>
+    <div class="number-card-b">
+      <div class="number-value-b">639<span class="unit-b">万</span></div>
+      <div class="number-label-b">平均年収</div>
+      <div class="number-sub-b">毎年給与制度改定により待遇アップ</div>
+    </div>
+    <div class="number-card-b">
+      <div class="number-value-b">19<span class="unit-b">h</span></div>
+      <div class="number-label-b">月平均残業時間</div>
+      <div class="number-sub-b">残業代1分単位で全額支給</div>
+    </div>
+    <div class="number-card-b">
+      <div class="number-value-b">92<span class="unit-b">%</span></div>
+      <div class="number-label-b">新卒定着率</div>
+      <div class="number-sub-b">2025年入社・2年目時点</div>
+    </div>
+    <div class="number-card-b">
+      <div class="number-value-b">9<span class="unit-b">年</span></div>
+      <div class="number-label-b">平均勤続年数</div>
+      <div class="number-sub-b">働きやすい環境の証明</div>
+    </div>
+    <div class="number-card-b">
+      <div class="number-value-b">6<span class="unit-b">割</span></div>
+      <div class="number-label-b">文系出身エンジニア</div>
+      <div class="number-sub-b">文理・IT経験一切不問</div>
+    </div>
+    <div class="number-card-b">
+      <div class="number-value-b">90<span class="unit-b">%+</span></div>
+      <div class="number-label-b">基本情報技術者試験<br>合格率（入社1年以内）</div>
+      <div class="number-sub-b">充実の研修で未経験でも即戦力へ</div>
+    </div>
+    <div class="number-card-b">
+      <div class="number-value-b">33<span class="unit-b">歳</span></div>
+      <div class="number-label-b">平均年齢</div>
+      <div class="number-sub-b">若くフラットな組織</div>
+    </div>
+    <div class="number-card-b">
+      <div class="number-value-b">34<span class="unit-b">%</span></div>
+      <div class="number-label-b">新卒採用における女性比率</div>
+      <div class="number-sub-b">ダイバーシティを推進</div>
+    </div>
+    <div class="number-card-b">
+      <div class="number-value-b">48<span class="unit-b">%</span></div>
+      <div class="number-label-b">20代社員の比率</div>
+      <div class="number-sub-b">若手が主役の職場</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer-light">
+  <div>
+    <div class="footer-light-logo">
+      <img src="img/img_2.png" alt="株式会社トラストシステム">
+    </div>
+    <p class="footer-light-sub">株式会社トラストシステム ／ ミライト・ワングループ</p>
+  </div>
+  <div class="footer-light-info">
+    <p>〒101-0021 東京都千代田区外神田4-14-1</p>
+    <p>秋葉原UDX 北ウィング8F</p>
+    <p>TEL：03-3253-0391</p>
+    <p class="footer-light-copy">© 2026 Trust System Corporation. All rights reserved.</p>
+  </div>
+</div>
+
+<script>
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.style.boxShadow = window.scrollY > 50
+      ? '0 4px 24px rgba(74,158,255,0.12)'
+      : '0 2px 20px rgba(74,158,255,0.08)';
+  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.number-card-b').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+  const hamburger = document.getElementById('navHamburger');
+  const overlay   = document.getElementById('navOverlay');
+  const mobileMenu = document.getElementById('navMobileMenu');
+  function toggleMenu(open) {
+    hamburger.classList.toggle('open', open);
+    overlay.classList.toggle('open', open);
+    mobileMenu.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  hamburger.addEventListener('click', () => toggleMenu(!mobileMenu.classList.contains('open')));
+  overlay.addEventListener('click', () => toggleMenu(false));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+</script>
+</body>
+</html>

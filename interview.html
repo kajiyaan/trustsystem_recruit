@@ -6,137 +6,8 @@
 <title>社員インタビュー | 株式会社トラストシステム 新卒採用</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style_light.css">
 <link rel="icon" type="image/png" href="img/favicon.png">
-<style>
-  .iv-hero {
-    padding: 160px 48px 80px;
-    background: var(--dark);
-    position: relative;
-    overflow: hidden;
-  }
-  .iv-hero::before {
-    content: 'INTERVIEW';
-    position: absolute;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 220px;
-    color: rgba(74,158,255,0.04);
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    letter-spacing: 16px;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-  .iv-hero-grid {
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(74,158,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(74,158,255,0.03) 1px, transparent 1px);
-    background-size: 80px 80px;
-  }
-  .iv-hero-inner {
-    max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;
-  }
-
-  /* カード一覧 */
-  .iv-list {
-    background: var(--black);
-    padding: 80px 48px 120px;
-  }
-  .iv-list-inner {
-    max-width: 1200px; margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-  }
-  .iv-card {
-    background: var(--dark2);
-    text-decoration: none;
-    color: var(--white);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s;
-  }
-  .iv-card:hover { background: var(--navy); }
-  .iv-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-    transform: scaleX(0);
-    transition: transform 0.4s;
-  }
-  .iv-card:hover::after { transform: scaleX(1); }
-
-  .iv-card-photo {
-    width: 100%;
-    aspect-ratio: 4/3;
-    object-fit: cover;
-    object-position: top;
-    display: block;
-    filter: grayscale(20%);
-    transition: filter 0.3s;
-  }
-  .iv-card:hover .iv-card-photo { filter: grayscale(0%); }
-
-  .iv-card-body { padding: 32px; flex: 1; display: flex; flex-direction: column; }
-
-  .iv-card-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 11px; letter-spacing: 4px;
-    color: var(--accent); margin-bottom: 12px;
-  }
-  .iv-card-tags {
-    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px;
-  }
-  .iv-card-tag {
-    font-size: 10px; letter-spacing: 2px;
-    border: 1px solid rgba(74,158,255,0.3);
-    color: var(--accent);
-    padding: 3px 10px; border-radius: 2px;
-  }
-  .iv-card-title {
-    font-size: 17px; font-weight: 500; line-height: 1.6;
-    margin-bottom: 16px; color: var(--white);
-  }
-  .iv-card-quote {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 14px; line-height: 1.8;
-    color: var(--gray); flex: 1;
-    border-left: 2px solid rgba(74,158,255,0.3);
-    padding-left: 14px; margin-bottom: 24px;
-  }
-  .iv-card-profile {
-    display: flex; align-items: center; gap: 14px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(74,158,255,0.1);
-  }
-  .iv-card-avatar {
-    width: 48px; height: 48px; border-radius: 50%;
-    object-fit: cover; object-position: top;
-    border: 1px solid rgba(74,158,255,0.2);
-    flex-shrink: 0;
-  }
-  .iv-card-name { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
-  .iv-card-meta { font-size: 11px; color: var(--gray); line-height: 1.6; }
-  .iv-card-arrow {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 13px; letter-spacing: 3px;
-    color: var(--accent); margin-top: 16px;
-    display: flex; align-items: center; gap: 8px;
-    transition: gap 0.3s;
-  }
-  .iv-card:hover .iv-card-arrow { gap: 14px; }
-
-  @media (max-width: 768px) {
-    .iv-hero { padding: 120px 24px 60px; }
-    .iv-list { padding: 60px 24px 80px; }
-    .iv-list-inner { grid-template-columns: 1fr; }
-  }
-</style>
 </head>
 <body>
 
@@ -289,7 +160,7 @@
 <script>
   const nav = document.querySelector('nav');
   window.addEventListener('scroll', () => {
-    nav.style.background = window.scrollY > 50 ? 'rgba(10,10,15,0.97)' : 'rgba(10,10,15,0.85)';
+    nav.style.background = window.scrollY > 50 ? 'rgba(255,255,255,0.98)' : 'rgba(255,255,255,0.95)';
   });
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; } });

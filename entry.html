@@ -6,7 +6,7 @@
 <title>エントリー | 株式会社トラストシステム 新卒採用</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style_light.css">
 <link rel="icon" type="image/png" href="img/favicon.png">
 </head>
 <body>
@@ -95,7 +95,7 @@
   });
   const nav = document.querySelector('nav');
   window.addEventListener('scroll', () => {
-    nav.style.background = window.scrollY > 50 ? 'rgba(10,10,15,0.97)' : 'rgba(10,10,15,0.85)';
+    nav.style.background = window.scrollY > 50 ? 'rgba(255,255,255,0.98)' : 'rgba(255,255,255,0.95)';
   });
   const currentPage = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a:not(.nav-entry)').forEach(a => {

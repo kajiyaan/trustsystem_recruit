@@ -303,7 +303,9 @@ def sync(html, name, title, desc, active):
 
 
 def write_if_changed(path, content, label):
-    if path.exists() and path.read_text(encoding='utf-8') == content:
+    # BOM付きのファイルは内容が同じでもBOMなしで書き直す
+    has_bom = path.exists() and path.read_bytes().startswith(b'\xef\xbb\xbf')
+    if not has_bom and path.exists() and path.read_text(encoding='utf-8') == content:
         print(f'  unchanged  {label}')
     else:
         path.write_text(content, encoding='utf-8')
@@ -354,7 +356,8 @@ Sitemap: {sitemap}
 def main():
     for name, (title, desc, active) in PAGES.items():
         path = ROOT / name
-        original = path.read_text(encoding='utf-8')
+        # utf-8-sig で読むことで、BOM付きのファイルもBOMなしに揃う
+        original = path.read_text(encoding='utf-8-sig')
         write_if_changed(path, sync(original, name, title, desc, active), name)
 
     write_if_changed(ROOT / 'sitemap.xml', build_sitemap(), 'sitemap.xml')

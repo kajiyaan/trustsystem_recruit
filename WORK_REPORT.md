@@ -68,6 +68,8 @@
 
 **ポイント：** `build.py` を実行するたびに全ページが再生成される。ソースHTMLを更新すれば一括反映できる構造。
 
+> **※現在は廃止：** その後ライトテーマへの全面作り直し・会社概要追加・インタビューページ追加などを各HTMLに直接加えたため、`build.py` の入力元ソースHTMLとは大きく乖離した。現在は各HTMLファイル自体が原本で、共通パーツの同期は `sync.py` が担う（後述）。
+
 ---
 
 ### 作業2｜ナビリンクの修正
@@ -171,11 +173,67 @@ GitHubリポジトリの Settings → Pages → Source: main branch に設定す
 
 ---
 
+## フェーズ3｜AIO（生成AI検索）対策・保守性の改善
+
+生成AI検索（ChatGPT・Perplexity・Google AI Overviews等）に正しく認識・引用されるための土台を整備した。
+
+### 作業10｜head メタ情報の整備
+
+| 項目 | 対応 |
+|------|------|
+| meta description | 全13ページにページ固有の説明文を追加（従来は0件） |
+| 構造化データ | schema.org の `Organization`（商号・住所・電話・設立・親会社・公式サイト）をJSON-LDで全ページに埋め込み |
+
+### 作業11｜見出し構造の修正
+
+about / business / culture / career / welfare / recruit / entry / stories の8ページが `<h1>` を持たず `<h2>` から始まっていたため、各ページのメインタイトルを `<h1>` に修正。クローラーがページ主題を判別できるようになった。
+
+### 作業12｜OGP・Twitter Card の設定
+
+SNSやチャット型AIでURLが共有された際に、タイトル・説明・画像が正しく表示されるよう全13ページに設定。
+
+- `img/ogp.jpg`（1200×630・84KB）を新規作成。ヒーロー写真＋ロゴ＋「新卒採用 2027」をPillowで合成
+- `og:title` / `og:description` / `og:image` / `og:url` / `twitter:card`（summary_large_image）等を付与
+- あわせて `<link rel="canonical">` を全ページに追加（重複コンテンツ対策）
+
+### 作業13｜募集要項の構造化データ（JobPosting）
+
+`recruit.html` の募集要項を schema.org の `JobPosting` としてマークアップ。職種・初任給（233,000〜255,000円／月）・勤務地・応募資格・待遇を、AIや検索エンジンが求人情報として直接読み取れる形にした。
+
+### 作業14｜sitemap.xml / robots.txt
+
+- `sitemap.xml`：全13ページのURL・更新日・優先度を `sync.py` が自動生成
+- `robots.txt`：GPTBot・OAI-SearchBot・ClaudeBot・PerplexityBot・Google-Extended を明示的に許可
+
+> **注意：** GitHub Pages のプロジェクトページ（`kajiyaan.github.io/trustsystem_recruit/`）では、`robots.txt` はドメイン直下（`kajiyaan.github.io/robots.txt`）しか参照されないため、現URLでは効力を持たない。独自ドメインへ移行した時点で有効になる。`sitemap.xml` はSearch Console等へURLを直接送信すれば現状でも利用可能。
+
+### 作業15｜`build.py` の廃止と `sync.py` の新設
+
+**課題：** `build.py` は入力元のソースHTMLが既に存在せず実行不能な状態だった。仮に動作しても、生成されるのは旧ダークテーマの9ページで、その後の改修内容（ライトテーマ・会社概要・インタビュー4ページ等）がすべて失われる状態だった。
+
+**対応：** 各HTMLを原本と位置づけ、共通部分だけを上書きする `sync.py` に作り直した。
+
+```bash
+python sync.py
+```
+
+- 管理対象：`<title>` / `meta description` / OGP・Twitter Card / canonical / JSON-LD / `<nav>`（モバイルメニュー含む）/ `<footer>`、および `sitemap.xml`・`robots.txt` の生成
+- ページ固有の本文・独自スタイルには一切触れない
+- 冪等（同じ内容なら `unchanged` と表示して書き込まない）
+- ページの追加は `PAGES` に1行足すだけ
+
+**副次的に解消された不整合：**
+- インタビュー4ページのフッターが `© 2025` のまま古かった（他ページは2026）
+- フッターロゴのマークアップがページ間で不統一だった
+- 未使用の旧ダークテーマ `css/style.css`（28KB）と、デザイン比較用の重複ページ `index_b.html` を削除
+
+---
+
 ## ファイル構成
 
 ```
 trustsystem_recruit/
-├── build.py              # ページ生成スクリプト（ソースHTMLから全ページを自動生成）
+├── sync.py               # 共通パーツ同期スクリプト（head/nav/footerを全ページに反映）
 ├── index.html
 ├── about.html
 ├── business.html
@@ -190,11 +248,10 @@ trustsystem_recruit/
 ├── interview_02.html
 ├── interview_03.html
 ├── css/
-│   └── style.css         # 共通スタイルシート（build.pyが自動生成）
+│   └── style_light.css   # 共通スタイルシート（ライトテーマ）
 └── img/
-    ├── img_0.png          # ナビロゴ
+    ├── logo_main.png      # ロゴ（ナビ・フッター共通）
     ├── img_1.jpeg         # ヒーロー背景
-    ├── img_2.png          # フッターロゴ
     ├── favicon.png        # ファビコン
     ├── interview_01.webp  # インタビュー写真
     ├── interview_02.webp
@@ -272,11 +329,15 @@ trustsystem_recruit/
 
 | 項目 | 優先度 | 備考 |
 |------|--------|------|
-| 各ページのmeta description追加 | 中 | SEO改善 |
-| OGP（SNSシェア用サムネイル）設定 | 中 | SNS拡散対策 |
+| ~~各ページのmeta description追加~~ | — | **対応済み**（フェーズ3） |
+| ~~OGP（SNSシェア用サムネイル）設定~~ | — | **対応済み**（フェーズ3） |
+| ~~sitemap.xml / robots.txt~~ | — | **対応済み**（フェーズ3）※robots.txtは独自ドメイン移行後に有効化 |
+| ~~JobPosting構造化データ~~ | — | **対応済み**（フェーズ3） |
+| Search Consoleへのsitemap送信 | 中 | 登録すれば現URLのままでも巡回を促進できる |
+| FAQセクションの追加 | 中 | Q&A形式はAI検索に引用されやすい。`FAQPage` 構造化データとセット |
 | img_1.jpegのWebP変換 | 低 | 1.4MBの軽量化 |
-| 独自ドメインの設定 | 高（本番移行時） | CNAME設定が必要 |
-| インタビュー追加（4人目以降） | 随時 | interview_04.htmlを追加するだけ |
+| 独自ドメインの設定 | 高（本番移行時） | CNAME設定が必要。robots.txtもこの時点で有効になる |
+| インタビュー追加（4人目以降） | 随時 | interview_04.html作成後、`sync.py` のPAGESに追記 |
 
 ---
 

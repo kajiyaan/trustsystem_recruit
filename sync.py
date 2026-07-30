@@ -152,6 +152,7 @@ JOB_POSTING = {
         '</ul>'
     ),
     'datePosted': '2026-07-30',
+    'validThrough': '2026-08-31',
     'employmentType': 'FULL_TIME',
     'hiringOrganization': {
         '@type': 'Organization',
@@ -185,6 +186,94 @@ JOB_POSTING = {
     'industry': '情報サービス業',
     'jobBenefits': '賞与年2回（計5カ月分）／年間休日126日／完全週休2日（土日祝）／残業代1分単位で全額支給／転居を伴う転勤なし',
 }
+
+def article(headline, image, published):
+    """インタビュー記事用の Article。公開日はgit履歴上の実際の公開日を使う。"""
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        'headline': headline,
+        'image': SITE_URL + image,
+        'datePublished': published,
+        'inLanguage': 'ja',
+        'author': {'@type': 'Organization', 'name': '株式会社トラストシステム'},
+        'publisher': {
+            '@type': 'Organization',
+            'name': '株式会社トラストシステム',
+            'logo': {'@type': 'ImageObject', 'url': SITE_URL + 'img/logo_main.png'},
+        },
+    }
+
+
+ARTICLES = {
+    'interview_01.html': article(
+        '東京電機大学卒業から入社した6年目女性社員がリーダーに抜擢されるまで',
+        'img/interview_01.webp', '2026-04-19'),
+    'interview_02.html': article(
+        '文系出身エンジニアが踏み出す、リーダーとしての第一歩',
+        'img/interview_02.webp', '2026-04-19'),
+    'interview_03.html': article(
+        '一つ一つの業務に真剣に取り組むことで理想の自分に近づいていけたら',
+        'img/interview_03.webp', '2026-05-01'),
+}
+
+# recruit.html に掲載する想定質問。回答はすべてサイト内の既出情報にもとづく。
+FAQ = [
+    ('文系出身やIT未経験でも応募できますか？',
+     '応募できます。全学部・全学科が対象で、文理・IT経験は一切問いません。'
+     '在籍エンジニアの約6割が文系出身です。入社後は3ヶ月の新人研修があり、'
+     '入社1年以内の基本情報技術者試験の合格率は90%以上です。'),
+    ('初任給と賞与を教えてください。',
+     '初任給は専門2年卒 233,000円／月、四大卒 251,000円／月、院了 255,000円／月です。'
+     '賞与は年2回（7月・12月）で計5カ月分の実績があります。'),
+    ('残業はどのくらいありますか？',
+     '月平均19時間です。残業代は1分単位で全額支給しており、固定残業制度はありません。'),
+    ('勤務地と転勤について教えてください。',
+     '東京都千代田区外神田（秋葉原）の本社・開発センター、およびクライアント先'
+     '（東京23区内近郊）です。転居を伴う転勤はありません。'),
+    ('休日はどのくらいありますか？',
+     '年間126日、完全週休2日制（土日祝）です。'),
+    ('選考の流れを教えてください。',
+     'エントリー → 会社説明会（WEB開催）→ ES提出・適性検査（WEB）→ '
+     '一次面接（WEB・個別）→ 最終面接（WEB・個別）→ 内々定 の流れです。'),
+]
+
+
+def faq_schema():
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        'mainEntity': [
+            {
+                '@type': 'Question',
+                'name': q,
+                'acceptedAnswer': {'@type': 'Answer', 'text': a},
+            }
+            for q, a in FAQ
+        ],
+    }
+
+
+def build_faq_section():
+    items = '\n'.join(
+        f"""      <div class="faq-item">
+        <h3 class="faq-q">{q}</h3>
+        <p class="faq-a">{a}</p>
+      </div>"""
+        for q, a in FAQ
+    )
+    return f"""<!-- FAQ:START -->
+<section id="faq" style="background:var(--dark);padding:100px 48px;">
+  <div style="max-width:900px;margin:0 auto;">
+    <p class="section-label">FAQ</p>
+    <h2 class="section-title" style="margin-bottom:48px;">よくある<em>質問</em></h2>
+    <div class="faq-list">
+{items}
+    </div>
+  </div>
+</section>
+<!-- FAQ:END -->"""
+
 
 FOOTER = """<footer>
   <div>
@@ -240,6 +329,7 @@ TITLE_RE = re.compile(r'<title>.*?</title>', re.S)
 DESC_RE = re.compile(r'<meta\s+name="description"[^>]*>')
 JSONLD_RE = re.compile(r'<script type="application/ld\+json">.*?</script>', re.S)
 OGP_RE = re.compile(r'<!-- OGP:START -->.*?<!-- OGP:END -->', re.S)
+FAQ_RE = re.compile(r'<!-- FAQ:START -->.*?<!-- FAQ:END -->', re.S)
 
 
 def page_url(name):
@@ -270,7 +360,12 @@ def build_ogp(name, title, desc):
 
 
 def build_jsonld(name):
-    data = [ORGANIZATION, JOB_POSTING] if name == 'recruit.html' else ORGANIZATION
+    if name == 'recruit.html':
+        data = [ORGANIZATION, JOB_POSTING, faq_schema()]
+    elif name in ARTICLES:
+        data = [ORGANIZATION, ARTICLES[name]]
+    else:
+        data = ORGANIZATION
     return ('<script type="application/ld+json">\n'
             + json.dumps(data, ensure_ascii=False, indent=2)
             + '\n</script>')
@@ -298,6 +393,14 @@ def sync(html, name, title, desc, active):
         html = html.replace('</head>', block + '\n</head>', 1)
 
     html = NAV_RE.sub(lambda m: build_nav(active), html, count=1)
+
+    if name == 'recruit.html':
+        faq = build_faq_section()
+        if FAQ_RE.search(html):
+            html = FAQ_RE.sub(lambda m: faq, html, count=1)
+        else:
+            html = html.replace('<footer>', faq + '\n\n<footer>', 1)
+
     html = FOOTER_RE.sub(lambda m: FOOTER, html, count=1)
     return html
 
